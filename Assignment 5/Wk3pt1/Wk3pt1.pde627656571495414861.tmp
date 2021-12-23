@@ -1,0 +1,63 @@
+final int SCREENX = 400;
+final int SCREENY = 400;
+final int PADDLEHEIGHT = 15;
+final int PADDLEWIDTH = 50;
+final int MARGIN = 10;
+PImage alienImage;
+PImage explosion;
+Player thePlayer;
+Bullet bullet;
+PowerUps currentPowerUp;
+
+Alien aliens [];
+
+void settings() {
+  size(SCREENX, SCREENY);
+}
+
+void setup() {
+  alienImage= loadImage("spacer.gif");
+  explosion = loadImage("exploding.gif");
+  aliens = new Alien[10];
+  noStroke();
+  init_array(aliens, alienImage);
+  thePlayer = new Player(SCREENY-MARGIN-PADDLEHEIGHT);
+  bullet = new Bullet();
+  currentPowerUp = new PowerUps();
+}
+
+void draw() {
+  background(0);
+  thePlayer.move(mouseX);
+  move_array(aliens);
+  draw_array(aliens);  
+  bullet.draw();
+  bullet.move();
+  thePlayer.draw();
+  bullet.collide(aliens);
+}
+
+void init_array(Alien aliens[], PImage alienimage) {
+  for (int count=0; count<aliens.length; count++) {
+    if (count < 5) {
+      aliens[count] = new Alien(((count+1)*30)+(count*10), 20, alienimage, explosion);
+    } else {
+      aliens[count] = new Alien(((count-4)*30)+((count-5)*10), 50, alienimage, explosion);
+    }
+  }
+}
+
+void draw_array (Alien aliens []) {
+  for (int i=0; i<aliens.length; i++) {
+    aliens[i].draw();
+  }
+}
+
+void move_array(Alien aliens []) {
+  for (int count=0; count<aliens.length; count++) {
+    aliens[count].move();
+  }
+}
+void mousePressed () {
+  bullet = new Bullet(thePlayer);
+}
