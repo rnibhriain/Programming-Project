@@ -1,0 +1,19 @@
+final int SCREENX = 400;
+final int SCREENY = 400;
+PImage alienImage;
+
+Alien alien;
+
+void settings() {
+  size(SCREENX, SCREENY);
+}
+
+void setup() {
+  alienImage= loadImage("spacer.gif"); 
+  alien = new Alien(50, 50, alienImage);
+}
+
+void draw() {
+  alien.draw();
+  alien.move();
+}
